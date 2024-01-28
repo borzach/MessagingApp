@@ -1,0 +1,166 @@
+[{
+  "_id": {
+    "$oid": "65b11dd093eddec9637d6474"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "biuln",
+  "date": "24/01/2024 15:25",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b232a68dcb52f861420d97"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "ok",
+  "date": "25/01/2024 11:06",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b232ab8dcb52f861420d9f"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "test",
+  "date": "25/01/2024 11:06",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b232cd8dcb52f861420da8"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "a",
+  "date": "25/01/2024 11:07",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b252858dcb52f861420ee3"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "yolo",
+  "date": "25/01/2024 13:22",
+  "convId": "65b2527b8dcb52f861420ee1",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b2529b8dcb52f861420eea"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "dcd",
+  "date": "25/01/2024 13:22",
+  "convId": "65b2527b8dcb52f861420ee1",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b27a801d6958e028270724"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "yyitare",
+  "date": "25/01/2024 16:13",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b27ab21d6958e02827072f"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "uhterh",
+  "date": "25/01/2024 16:13",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b27b471d6958e028270754"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "testo",
+  "date": "25/01/2024 16:16",
+  "convId": "65b27b3f1d6958e02827074c",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b27dcc1d6958e0282707af"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "gfjhfj",
+  "date": "25/01/2024 16:27",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b61ccfe68d34e8eb281f91"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "gre",
+  "date": "28/01/2024 10:22",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b61cd9e68d34e8eb281f98"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "gras",
+  "date": "28/01/2024 10:22",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b6264fe68d34e8eb281fe1"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "gigi",
+  "date": "28/01/2024 11:02",
+  "convId": "65a7e883688b1af59d8237b4",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b667c8e6db2e882ece4ab9"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "bite",
+  "date": "28/01/2024 15:42",
+  "convId": "65a7e883688b1af59d8237b4"
+},
+{
+  "_id": {
+    "$oid": "65b667eee6db2e882ece4ac7"
+  },
+  "senderID": "65a7e883688b1af59d8237b4",
+  "content": "yolo",
+  "date": "28/01/2024 15:42",
+  "convId": "65b66753e6db2e882ece4a9f"
+},
+{
+  "_id": {
+    "$oid": "65b66802e6db2e882ece4ad6"
+  },
+  "senderID": "65b662c6e6db2e882ece4a5e",
+  "content": "karibou",
+  "date": "28/01/2024 15:43",
+  "convId": "65b66753e6db2e882ece4a9f"
+},
+{
+  "_id": {
+    "$oid": "65b6693ae6db2e882ece4b0d"
+  },
+  "senderID": "65b6692be6db2e882ece4af9",
+  "content": "okok",
+  "date": "28/01/2024 15:48",
+  "convId": "65b66937e6db2e882ece4b01"
+}]

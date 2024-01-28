@@ -1,0 +1,21 @@
+CLIENT
+
+telecharge les modules avec :
+npm install --legacy-peer-deps
+
+lance le client avec :
+ng serve
+
+
+
+SERVER
+
+lance le serveur avec :
+node.js
+
+
+MONGO DB
+Faut creer une nouvelle connexion avec cette url : mongodb://localhost:27017 mais c'est celui par default normalement
+	   une database "messagingApp"
+	   des collections avec le nom des fichiers json dans ce dossier
+et dans la collection ont peut importer ces fichiers json

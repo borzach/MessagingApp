@@ -1,0 +1,21 @@
+<h2>My Contacts</h2>
+
+<div>
+  <label for="new-user">user name: </label>
+  <input id="new-user" #userName />
+
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button type="button" class="add-button" (click)="add(userName.value); userName.value=''">
+    Add user
+  </button>
+</div>
+
+<ul class="useres">
+  <li *ngFor="let user of users">
+    <a routerLink="/detail/{{user._id}}">
+      <span class="badge">{{user._id}}</span> {{user.username}}
+    </a>
+    <button type="button" class="delete" title="delete user"
+      (click)="delete(user)">x</button>
+  </li>
+</ul>

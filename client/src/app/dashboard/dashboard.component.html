@@ -1,0 +1,20 @@
+<div *ngIf="!isLoggedIn()">
+  <app-login></app-login>
+</div>
+<div *ngIf="isLoggedIn()">
+  <div class="headerDashboard">
+    <app-user-search (addContact)="addContactToLoggedIn($event)"></app-user-search>
+    {{loggedInUser.username}}
+  </div>
+  <div>
+    My contacts
+    <div *ngFor="let contact of contacts">
+      <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
+    </div>
+    <div *ngIf="this.openConversation">
+        <app-conversation [members]="this.contactsToChatWith"></app-conversation>
+    </div>
+  </div>
+  <app-messages></app-messages>
+</div>
+

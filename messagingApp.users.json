@@ -1,0 +1,76 @@
+[{
+  "_id": {
+    "$oid": "65a7e883688b1af59d8237b4"
+  },
+  "username": "patoche",
+  "password": "tiremondoigt",
+  "email": "test@gmail.com",
+  "contacts": [
+    "65b51432f118f65162af0db4",
+    "65b662c6e6db2e882ece4a5e"
+  ],
+  "conversations": [
+    "65a7e883688b1af59d8237b4",
+    "65b66753e6db2e882ece4a9f"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65b51432f118f65162af0db4"
+  },
+  "username": "h",
+  "password": "i",
+  "email": "t",
+  "contacts": [
+    "65a7e883688b1af59d8237b4",
+    "65b668c4e6db2e882ece4ae0"
+  ],
+  "conversations": [
+    "65a7e883688b1af59d8237b4",
+    "65b668cbe6db2e882ece4ae8"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65b662c6e6db2e882ece4a5e"
+  },
+  "username": "pol",
+  "password": "pol",
+  "email": "pol",
+  "contacts": [
+    "65a7e883688b1af59d8237b4",
+    "65b6692be6db2e882ece4af9"
+  ],
+  "conversations": [
+    "65b66753e6db2e882ece4a9f",
+    "65b66937e6db2e882ece4b01"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65b668c4e6db2e882ece4ae0"
+  },
+  "username": "i",
+  "password": "i",
+  "email": "i",
+  "contacts": [
+    "65b51432f118f65162af0db4"
+  ],
+  "conversations": [
+    "65b668cbe6db2e882ece4ae8"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65b6692be6db2e882ece4af9"
+  },
+  "username": "p",
+  "password": "p",
+  "email": "p",
+  "contacts": [
+    "65b662c6e6db2e882ece4a5e"
+  ],
+  "conversations": [
+    "65b66937e6db2e882ece4b01"
+  ]
+}]
