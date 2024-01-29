@@ -7,7 +7,6 @@ lance le client avec :
 ng serve
 
 
-
 SERVER
 
 lance le serveur avec :
@@ -21,3 +20,11 @@ Faut telecharger MongoDb Compass
 	   une database "messagingApp"
 	   des collections avec le nom des fichiers json dans ce dossier
 et dans la collection ont peut importer ces fichiers json
+
+
+SERVICE WORKER
+
+Aller dans le dossier dist/browser du client et executer :
+http-server -c-1 -P http://localhost:9000
+
+L'application est censer etre disponible sur http://localhost:8080/
