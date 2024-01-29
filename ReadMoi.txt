@@ -15,7 +15,9 @@ node.js
 
 
 MONGO DB
-Faut creer une nouvelle connexion avec cette url : mongodb://localhost:27017 mais c'est celui par default normalement
+
+Faut telecharger MongoDb Compass
+     creer une nouvelle connexion avec cette url : mongodb://localhost:27017 mais c'est celui par default normalement
 	   une database "messagingApp"
 	   des collections avec le nom des fichiers json dans ce dossier
 et dans la collection ont peut importer ces fichiers json
