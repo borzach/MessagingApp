@@ -1,7 +1,7 @@
 CLIENT
 
 telecharge les modules avec :
-npm install --legacy-peer-deps
+npm install
 
 lance le client avec :
 ng serve
