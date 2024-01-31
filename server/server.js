@@ -19,14 +19,15 @@ app.use(bodyParser.json());
 
 // Routes
 app.get('/', (req, res) => {
- 
   res.send('Backend for Messaging App');
 });
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/messagingApp', {
+mongoose.connect('mongodb://0.0.0.0:27017/messagingApp', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
+}).then(() => {
+  console.log('Connected to the database!');
 });
 
 // Définition du schéma pour la collection "users"
@@ -128,7 +129,7 @@ app.get('/api/users/:id', async (req, res) => {
 });
 
 // Endpoint pour récupérer une conv par son ID
-app.get('/api/conversations/:id', async (req, res) => 
+app.get('/api/conversations/:id', async (req, res) =>
 {
   const convId = req.params.id;
   try {
@@ -158,7 +159,7 @@ app.post('/api/conversations', async (req, res) => {
 });
 
 // Endpoint pour récupérer un msg par son ID
-app.get('/api/messages/:id', async (req, res) => 
+app.get('/api/messages/:id', async (req, res) =>
 {
   const msgId = req.params.id;
   try {
