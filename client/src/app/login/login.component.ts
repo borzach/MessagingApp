@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { AppComponent } from '../app.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -54,13 +55,26 @@ export class LoginComponent implements OnInit{
     this.userService.logginUser(this.loggedInUser).subscribe(
       (response) => {
         // Gère la réponse du serveur après la connexion
-        console.log('Réponse du serveur après la connexion:', response);
+        console.log('Réponse du servour mamour après la connexion:', response);
         this.userService.loggedInUser = response.user;
+        if (!this.userService.lastUserLog) {
+          this.userService.lastUserLog = new BehaviorSubject<User>(response.user);
+        } else {
+          this.userService.lastUserLog.next(response.user);
+        }
+        this.userService.lastUserLog.subscribe(usr => {
+          usr.contacts.forEach((contact) => {
+            console.log(contact)
+            this.userService.getUser(contact).subscribe((user) => {
+              if (!this.userService.contactsLoaded.find((element) => element._id == user._id)) {
+                console.log(user);
+                this.userService.contactsLoaded.push(user);
+              }
+            });
+          });
+        });
+        
         this.login();
-      },
-      (error) => {
-        // Gère les erreurs éventuelles
-        console.error('Erreur lors de la connexion:', error);
       }
     );
   }

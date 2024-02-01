@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, Subject, forkJoin, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, forkJoin, from, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { Conversation, Message, User } from './user';
 import { MessageService } from './message.service';
@@ -15,6 +15,7 @@ export class UserService {
   private userUrl = 'http://localhost:3000/api/users';//'api/users';  // URL to web api
   private convUrl = 'http://localhost:3000/api/conversations';
   private msgUrl = 'http://localhost:3000/api/messages';
+  private loginUrl = 'http://localhost:3000/api/login';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,6 +28,7 @@ export class UserService {
     contacts:[],
     conversations: []
   };
+  lastUserLog!: BehaviorSubject<User>; //= new BehaviorSubject<User>(this.loggedInUser);
   isLoggedIn = false;
   contactsLoaded: User[] = [];
   openConversation: Conversation = {
@@ -268,7 +270,34 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
     const username = user.username
     const password = user.password
     const credentials = { username, password };
-    return this.http.post<any>('http://localhost:3000/api/login', credentials);
+    //return this.http.post<any>('http://localhost:3000/api/login', credentials);
+    return this.getCachedResponse(this.loginUrl).pipe(
+      switchMap(cachedResponse => {
+        if (cachedResponse) {
+          console.log("cached");
+          // Si la réponse est en cache, retournez-la directement
+          return of(cachedResponse);
+        } else {
+          console.log("caching");
+          // Si la réponse n'est pas en cache, effectuez la requête POST
+          return this.http.post<User>(this.loginUrl, credentials).pipe(
+            tap(response => {
+              // Mise en cache de la réponse
+              caches.open('post-cache').then(cache => {
+                cache.put(this.loginUrl, new Response(JSON.stringify(response)));
+              });
+            })
+          );
+        }
+      })
+    );
+  }
+  
+  private getCachedResponse(url: string): Observable<any> {
+    return from(caches.open('post-cache')).pipe(
+      switchMap(cache => from(cache.match(url))),
+      switchMap(response => response ? from(response.json()) : of(null))
+    );
   }
 
   /* GET heroes whose name contains search term */

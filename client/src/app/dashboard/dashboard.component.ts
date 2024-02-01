@@ -28,10 +28,19 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    if(this.userService.lastUserLog) {
+      console.log("test")
+      var usr = this.userService.lastUserLog.value;
+      if (usr && usr._id) {
+        this.loggedInUser = usr;
+        this.userService.loggedInUser = this.loggedInUser;
+        this.userService.isLoggedIn = true;
+      }
+    }
   }
 
   onLogin(): void {
-    this.userService.updateUser(this.userService.loggedInUser);
+    //this.userService.updateUser(this.userService.loggedInUser);
     this.contacts = this.userService.contactsLoaded;
     this.contactsToChatWith.push(this.userService.loggedInUser);
 
