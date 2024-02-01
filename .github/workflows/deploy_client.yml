@@ -35,7 +35,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_ADDRESS }} # Get the server address from Secrets
-        username: 'alexis' # Your server username
+        username: 'deployer' # Your server username
         password: ${{ secrets.SERVER_PASSWORD }} # Get the server password from Secrets
         script: rm -rf /var/www/html/messagingapp # Specify the path of the target folder on the server (e.g., /var/www/html/front/*)
 
@@ -43,7 +43,7 @@ jobs:
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.SERVER_ADDRESS }} # Your server address to access it by SSH.
-        username: 'alexis' # Your server username
+        username: 'deployer' # Your server username
         password: ${{ secrets.SERVER_PASSWORD }} # Server password from Secrets
         source: ${{ github.workspace }}/client/dist/browser
         target: /var/www/html/messagingapp # Specify the path of the target folder on the server (e.g., /var/www/html/front/)
@@ -55,6 +55,6 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_ADDRESS }}
-        username: 'alexis' # Your server username
+        username: 'deployer' # Your server username
         password: ${{ secrets.SERVER_PASSWORD }}
         script: systemctl restart nginx.service # Restart the Nginx service
