@@ -1,0 +1,60 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+    - main # The branch to trigger the deployment when you push a commit to it
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # If you are using Nginx server
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18 # Ensure Node.js version is compatible with your Angular project
+
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./client # Set the working directory for npm commands
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli # Install Angular CLI in the workflow environment
+      working-directory: ./client # Set the working directory for npm commands
+
+    - name: Build Angular app
+      run: ng build --configuration production
+      working-directory: ./client # Set the working directory for npm commands
+
+    #//*****************************Nginx Server********************************//
+    - name: Remove Files on Nginx Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_ADDRESS }} # Get the server address from Secrets
+        username: 'alexis' # Your server username
+        password: ${{ secrets.SERVER_PASSWORD }} # Get the server password from Secrets
+        script: rm -rf /var/www/html/messagingapp # Specify the path of the target folder on the server (e.g., /var/www/html/front/*)
+
+    - name: Deploy to Server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_ADDRESS }} # Your server address to access it by SSH.
+        username: 'alexis' # Your server username
+        password: ${{ secrets.SERVER_PASSWORD }} # Server password from Secrets
+        source: ${{ github.workspace }}/client/dist/browser
+        target: /var/www/html/messagingapp # Specify the path of the target folder on the server (e.g., /var/www/html/front/)
+        # strip_components: 2 # Removes a specified number of directory components (folders) from the beginning of a file path.
+        # This can be used to deploy only specific folders and files.
+
+      #//*****************************Nginx Server********************************//
+    - name: Restart Nginx Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_ADDRESS }}
+        username: 'alexis' # Your server username
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: systemctl restart nginx.service # Restart the Nginx service
