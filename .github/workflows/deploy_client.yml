@@ -50,11 +50,11 @@ jobs:
         # strip_components: 2 # Removes a specified number of directory components (folders) from the beginning of a file path.
         # This can be used to deploy only specific folders and files.
 
-      #//*****************************Nginx Server********************************//
-    - name: Restart Nginx Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_ADDRESS }}
-        username: 'deployer' # Your server username
-        password: ${{ secrets.SERVER_PASSWORD }}
-        script: systemctl restart nginx.service # Restart the Nginx service
+    #//*****************************Nginx Server********************************//
+    # - name: Restart Nginx Server
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.SERVER_ADDRESS }}
+    #     username: 'deployer' # Your server username
+    #     password: ${{ secrets.SERVER_PASSWORD }}
+    #     script: systemctl restart nginx.service # Restart the Nginx service
