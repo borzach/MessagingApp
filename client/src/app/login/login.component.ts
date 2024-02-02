@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit{
     email: '',
     password: '',
     contacts:[],
-    conversations: []
+    conversations: [],
+    endpointNotif: null
   };
   logginMessage!: string;
   constructor(private userService: UserService) { }
@@ -55,7 +56,6 @@ export class LoginComponent implements OnInit{
     this.userService.logginUser(this.loggedInUser).subscribe(
       (response) => {
         // Gère la réponse du serveur après la connexion
-        console.log('Réponse du servour mamour après la connexion:', response);
         this.userService.loggedInUser = response.user;
         if (!this.userService.lastUserLog) {
           this.userService.lastUserLog = new BehaviorSubject<User>(response.user);
@@ -64,10 +64,8 @@ export class LoginComponent implements OnInit{
         }
         this.userService.lastUserLog.subscribe(usr => {
           usr.contacts.forEach((contact) => {
-            console.log(contact)
             this.userService.getUser(contact).subscribe((user) => {
               if (!this.userService.contactsLoaded.find((element) => element._id == user._id)) {
-                console.log(user);
                 this.userService.contactsLoaded.push(user);
               }
             });

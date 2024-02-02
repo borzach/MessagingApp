@@ -25,7 +25,8 @@ export class UserSearchComponent implements OnInit {
     email: '',
     password: '',
     contacts:[],
-    conversations: []
+    conversations: [],
+    endpointNotif: null
   };
   displayUser = false;
   private searchTerms = new Subject<string>();

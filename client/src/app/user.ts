@@ -20,4 +20,5 @@ export interface User {
   email: string;
   contacts: string[];
   conversations: string[];
+  endpointNotif: PushSubscriptionJSON | null;
 }

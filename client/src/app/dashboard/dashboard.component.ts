@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Conversation, Message, User } from '../user';
 import { UserService } from '../user.service';
+import { SwPush, SwUpdate } from '@angular/service-worker';
+import { CheckForUpdateService } from '../check-for-updates.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +16,8 @@ export class DashboardComponent implements OnInit {
     email: "",
     password: "",
     contacts:[],
-    conversations: []
+    conversations: [],
+    endpointNotif: null,
   };
   loadedConvs: Conversation[] = [];
   loadedMsgs: Message[] = [];
@@ -24,12 +27,20 @@ export class DashboardComponent implements OnInit {
   contactsToChatWith: User[] = [];
   openConversation = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private swPush: SwPush, private checkForUpdateService: CheckForUpdateService,private swUpdate: SwUpdate) {
+    
+  }
 
   ngOnInit(): void {
+    if (this.swUpdate.isEnabled) {
+      this.checkForUpdateService.versionReady$.subscribe(() => {
+        if (confirm('New version available! would you like to update?')) {
+          window.location.reload();
+        }
+      });
+    }
     this.getUsers();
     if(this.userService.lastUserLog) {
-      console.log("test")
       var usr = this.userService.lastUserLog.value;
       if (usr && usr._id) {
         this.loggedInUser = usr;
@@ -40,11 +51,23 @@ export class DashboardComponent implements OnInit {
   }
 
   onLogin(): void {
-    //this.userService.updateUser(this.userService.loggedInUser);
     this.contacts = this.userService.contactsLoaded;
     this.contactsToChatWith.push(this.userService.loggedInUser);
+  }
 
-    //this.loadedMsgs = this.userService.getAllMsgFromUser(this.userService.loggedInUser);
+  subcribeToNotif(): void {
+    
+    if (this.swPush.isEnabled) {
+      this.swPush.requestSubscription({
+        serverPublicKey: this.userService.VAPID_KEY
+      })
+      .then(sub => {
+        console.log("sub: ", sub);
+        this.loggedInUser.endpointNotif = sub.toJSON();
+        this.userService.updateUser(this.loggedInUser);
+      })
+      .catch(console.error);
+    }
   }
 
   getUsers(): void {
@@ -62,16 +85,6 @@ export class DashboardComponent implements OnInit {
     this.contactsToChatWith = [];
     this.contactsToChatWith.push(temp);
     this.contactsToChatWith.push(user);
-    console.log(this.contactsToChatWith);
-   /* this.userService.onConvExist(this.contactsToChatWith).subscribe(exist => {
-      if (exist) {
-
-      } else {
-        this.contactsToChatWith.forEach(contact => {
-          contact.
-        })
-      }
-    });*/
     this.openConversation = true;
   }
 
@@ -82,10 +95,6 @@ export class DashboardComponent implements OnInit {
   isLoggedIn(): boolean {
     if (this.userService.isLoggedIn) {
       if (this.loginState == 0) {
-        //this.userService.updateUser(this.userService.loggedInUser);
-        //this.contacts = this.userService.contactsLoaded;
-        //this.contactsToChatWith.push(this.userService.loggedInUser);
-        //this.loadedMsgs = this.userService.getAllMsgFromUser(this.userService.loggedInUser);
         this.onLogin()
         this.loginState++;
       }

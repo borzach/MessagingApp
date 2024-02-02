@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, Subject, forkJoin, from, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription, forkJoin, from, of, race, timer } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { Conversation, Message, User } from './user';
 import { MessageService } from './message.service';
@@ -16,6 +16,8 @@ export class UserService {
   private convUrl = 'http://localhost:3000/api/conversations';
   private msgUrl = 'http://localhost:3000/api/messages';
   private loginUrl = 'http://localhost:3000/api/login';
+  public notifUrl = 'http://localhost:3000/subscribe';
+  readonly VAPID_KEY = 'BKMj0G8gM5d15pUytibmgaltVJ-LLy63CF9LnsR80Cq0XmmcCU5vsenDat4QiVjNXoz4w7fXUSReGz19sYxvYeY';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,7 +28,8 @@ export class UserService {
     email: "",
     password: "",
     contacts:[],
-    conversations: []
+    conversations: [],
+    endpointNotif: null
   };
   lastUserLog!: BehaviorSubject<User>; //= new BehaviorSubject<User>(this.loggedInUser);
   isLoggedIn = false;
@@ -40,6 +43,9 @@ export class UserService {
     private http: HttpClient,
     private messageService: MessageService) { }
 
+  postSubscription(sub: PushSubscriptionJSON) {
+    return this.http.post(this.notifUrl, sub);
+  }
   /** GET heroes from the server */
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userUrl)
@@ -115,63 +121,10 @@ export class UserService {
     return allMessages;
 }
 
-/*onConvExist(users: User[]): Observable<boolean> {
-  var usersInConv = 0;
-  
-  users[0].conversations.forEach(convId => {
-    usersInConv = 0;
-    this.getConv(convId).subscribe(conv => {
-      conv.members.forEach(member => {
-        users.forEach(usr => {
-          if (member.includes(usr._id)) {
-            usersInConv++;
-          }
-        });
-      });
-      if (usersInConv == users.length) {
-        return 
-      }
-    });
-  })
-}*/
-
 private usersInConvSubject = new Subject<boolean>();
 
-/*onConvExist(users: User[]): Observable<boolean> {
-  var convFound = false;
-  if (users[0].conversations.length == 0) {
-    console.log("ok");
-    this.usersInConvSubject.next(false);
-    convFound=true;
-  }
-  users[0].conversations.forEach(convId => {
-    if (!convFound) {
-      this.getConv(convId).subscribe(conv => {
-        let usersInConvCount = 0;
-
-        conv.members.forEach(member => {
-          users.forEach(usr => {
-            if (member.includes(usr._id)) {
-              usersInConvCount++;
-            }
-          });
-        });
-
-        if (usersInConvCount == users.length) {
-          this.usersInConvSubject.next(true);
-          convFound = true; // Émet la valeur true
-        } else {
-          
-          this.usersInConvSubject.next(false);
-        }
-      });
-    }
-  });
-  return this.usersInConvSubject.asObservable();
-}*/
 onConvExist(users: User[]): Observable<boolean> {
   if (users[0].conversations.length === 0) {
-    console.log("ok");
     this.usersInConvSubject.next(false);
     return of(false);
   }
@@ -181,10 +134,8 @@ onConvExist(users: User[]): Observable<boolean> {
   return forkJoin(observables).pipe(
     map(convs => {
       let convFound = false;
-
       for (const conv of convs) {
         let usersInConvCount = 0;
-
         conv.members.forEach(member => {
           users.forEach(usr => {
             if (member.includes(usr._id)) {
@@ -192,18 +143,15 @@ onConvExist(users: User[]): Observable<boolean> {
             }
           });
         });
-
         if (usersInConvCount === users.length) {
           this.usersInConvSubject.next(true);
           convFound = true;
           break; // Sortir de la boucle si la conversation est trouvée
         }
       }
-
       if (!convFound) {
         this.usersInConvSubject.next(false);
       }
-
       return convFound;
     }),
     catchError(error => {
@@ -216,11 +164,6 @@ onConvExist(users: User[]): Observable<boolean> {
 
 getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
   return new Observable<Conversation>((observer) => {
-    var convResult: Conversation = {
-      _id: '',
-      members: [],
-      messages: []
-    };
     var usr1Found = false;
     var usr2Found = false;
     var isGroupConv = false;
@@ -241,54 +184,33 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
         });
 
         if (!isGroupConv && usr1Found && usr2Found) {
-          convResult = conv;
           this.openConversation = conv;
           observer.next(conv);
           observer.complete();
         }
       });
     });
-
-    // Si la conversation n'est pas trouvée, vous pouvez ajouter le code ici
-    // pour créer une nouvelle conversation et l'émettre via l'observable.
-
-    // if (!convFound) {
-    //   convResult.members.push(usr1._id);
-    //   convResult.members.push(usr2._id);
-    //   this.addConversation(convResult).subscribe(newConv => {
-    //     observer.next(newConv);
-    //     observer.complete();
-    //   });
-    // } else {
-    //   observer.complete();
-    // }
   });
 }
 
-
   logginUser(user: User): Observable<any> {
-    const username = user.username
-    const password = user.password
+    const username = user.username;
+    const password = user.password;
     const credentials = { username, password };
-    //return this.http.post<any>('http://localhost:3000/api/login', credentials);
-    return this.getCachedResponse(this.loginUrl).pipe(
-      switchMap(cachedResponse => {
-        if (cachedResponse) {
-          console.log("cached");
-          // Si la réponse est en cache, retournez-la directement
-          return of(cachedResponse);
-        } else {
-          console.log("caching");
-          // Si la réponse n'est pas en cache, effectuez la requête POST
-          return this.http.post<User>(this.loginUrl, credentials).pipe(
-            tap(response => {
-              // Mise en cache de la réponse
-              caches.open('post-cache').then(cache => {
-                cache.put(this.loginUrl, new Response(JSON.stringify(response)));
-              });
-            })
-          );
-        }
+  
+    const serverRequest = this.http.post<User>(this.loginUrl, credentials).pipe(
+      tap(response => {
+        // Mise en cache de la réponse
+        caches.open('post-cache').then(cache => {
+          cache.put(this.loginUrl, new Response(JSON.stringify(response)));
+        });
+      })
+    );
+  
+    return serverRequest.pipe(
+      catchError((error) => {
+        // En cas d'erreur, essayez de récupérer la réponse du cache
+        return this.getCachedResponse(this.loginUrl);
       })
     );
   }
@@ -336,16 +258,12 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
   addConversation(conv: Conversation): Observable<Conversation> {
     return this.http.post<Conversation>(this.convUrl, conv).pipe(
       tap((newConv: Conversation) => {
-        this.log(`added Conversation w/ id=${newConv._id}`);
         newConv.members.forEach(mbr_Id => {
           this.getUser(mbr_Id).subscribe(usr => {
             usr.conversations.push(newConv._id);
             this.updateUser(usr);
           })
         });
-       // this.loggedInUser.conversations.push(newConv._id);
-        //console.log(this.loggedInUser);
-        //this.updateUser(this.loggedInUser);
       }),
       catchError(this.handleError<Conversation>('addConversation'))
     );
@@ -364,12 +282,7 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
   /** PUT: update the hero on the server */
   updateUser(usr: User) {
     const url = `${this.userUrl}/${usr._id}`;
-  
-    console.log(usr);
-  
     this.http.put<User>(url, usr).subscribe(response => {
-      console.log(response);
-  
       // Mise à jour des contacts après avoir reçu la réponse de la requête PUT
       this.loggedInUser.contacts.forEach((contact) => {
         this.getUser(contact).subscribe((user) => {
@@ -384,8 +297,7 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
   /** PUT: update the hero on the server */
   updateConversation(conv: Conversation){
     const url = `${this.convUrl}/${conv._id}`;
-    return this.http.put<Conversation>(url, conv).subscribe(response => { 
-      console.log(response);
+    return this.http.put<Conversation>(url, conv).subscribe(response => {
       this.openConversation = response;
     });
   }

@@ -5,6 +5,7 @@
   <div class="headerDashboard">
     <app-user-search (addContact)="addContactToLoggedIn($event)"></app-user-search>
     {{loggedInUser.username}}
+    <button type="button" class="add-button" (click)="subcribeToNotif()">Allow Notifications</button>
   </div>
   <div>
     My contacts

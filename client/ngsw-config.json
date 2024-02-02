@@ -34,9 +34,9 @@
         "http://localhost:3000/api/*"
       ],
       "cacheConfig": {
-        "maxSize": 50,
+        "maxSize": 150,
         "maxAge": "6h",
-        "timeout": "10s",
+        "timeout": "2s",
         "strategy":"freshness"
       }
     }
