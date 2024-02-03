@@ -45,7 +45,7 @@ const User = mongoose.model('users', userSchema);
 const convSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   members: { type: [String], required: true },
-  messages:  { type: [String], required: true }
+  messages: { type: [String], required: true }
 }, { versionKey: false });
 const Conv = mongoose.model('conversations', convSchema);
 
@@ -95,11 +95,29 @@ app.post('/api/login', async (req, res) => {
 
   try {
     // Vérifie les identifiants de l'utilisateur par exemple
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ username });
 
     if (user) {
       // Utilisateur authentifié
-      res.json({ success: true, user });
+
+      // TODO : check if password is correct
+      checkPassword(userInputPassword, user.password)
+        .then((isMatch) => {
+          if (isMatch) {
+            console.log('Password is correct');
+            // Proceed with login logic
+            res.json({ success: true, user });
+          } else {
+            console.log('Password is incorrect');
+            // Handle incorrect password scenario
+            res.status(401).json({ success: false, message: 'Identifiants incorrects' });
+          }
+        })
+        .catch((error) => {
+          console.error('Error checking password:', error);
+          // Handle error scenario
+          res.status(500).json({ success: false, message: 'Internal Server Error' });
+        });
     } else {
       // Identifiants incorrects
       res.status(401).json({ success: false, message: 'Identifiants incorrects' });
@@ -129,8 +147,7 @@ app.get('/api/users/:id', async (req, res) => {
 });
 
 // Endpoint pour récupérer une conv par son ID
-app.get('/api/conversations/:id', async (req, res) =>
-{
+app.get('/api/conversations/:id', async (req, res) => {
   const convId = req.params.id;
   try {
     const conv = await Conv.findById(convId);
@@ -159,8 +176,7 @@ app.post('/api/conversations', async (req, res) => {
 });
 
 // Endpoint pour récupérer un msg par son ID
-app.get('/api/messages/:id', async (req, res) =>
-{
+app.get('/api/messages/:id', async (req, res) => {
   const msgId = req.params.id;
   try {
     const msg = await Msg.findById(msgId);
@@ -198,7 +214,7 @@ app.put('/api/users/:id', async (req, res) => {
     if (updatedUser) {
       res.json(updatedUser);
     } else {
-      res.status(404).json({ error: 'Utilisateur '+ userId + ' non trouvé' });
+      res.status(404).json({ error: 'Utilisateur ' + userId + ' non trouvé' });
     }
   } catch (error) {
     console.error(error);
@@ -216,7 +232,7 @@ app.put('/api/messages/:id', async (req, res) => {
     if (updatedMsg) {
       res.json(updatedMsg);
     } else {
-      res.status(404).json({ error: 'Utilisateur '+ msgId + ' non trouvé' });
+      res.status(404).json({ error: 'Utilisateur ' + msgId + ' non trouvé' });
     }
   } catch (error) {
     console.error(error);
@@ -234,7 +250,7 @@ app.put('/api/conversations/:id', async (req, res) => {
     if (updatedConv) {
       res.json(updatedConv);
     } else {
-      res.status(404).json({ error: 'Utilisateur '+ convId + ' non trouvé' });
+      res.status(404).json({ error: 'Utilisateur ' + convId + ' non trouvé' });
     }
   } catch (error) {
     console.error(error);
