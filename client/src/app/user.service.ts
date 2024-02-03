@@ -12,9 +12,9 @@ import { element } from 'protractor';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-  private userUrl = 'http://localhost:3000/api/users';//'api/users';  // URL to web api
-  private convUrl = 'http://localhost:3000/api/conversations';
-  private msgUrl = 'http://localhost:3000/api/messages';
+  private userUrl = 'http://jouquan.fr:3000/api/users';//'api/users';  // URL to web api
+  private convUrl = 'http://jouquan.fr:3000/api/conversations';
+  private msgUrl = 'http://jouquan.fr:3000/api/messages';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -104,7 +104,7 @@ export class UserService {
 
   getAllMsgFromConv(conv: Conversation) :  Message[] {
     var allMessages: Message[] = [];
-   
+
     conv.messages.forEach((message) => {
       this.getMsg(message).subscribe((msg)=> {
         allMessages.push(msg);
@@ -115,7 +115,7 @@ export class UserService {
 
 /*onConvExist(users: User[]): Observable<boolean> {
   var usersInConv = 0;
-  
+
   users[0].conversations.forEach(convId => {
     usersInConv = 0;
     this.getConv(convId).subscribe(conv => {
@@ -127,7 +127,7 @@ export class UserService {
         });
       });
       if (usersInConv == users.length) {
-        return 
+        return
       }
     });
   })
@@ -159,7 +159,7 @@ private usersInConvSubject = new Subject<boolean>();
           this.usersInConvSubject.next(true);
           convFound = true; // Émet la valeur true
         } else {
-          
+
           this.usersInConvSubject.next(false);
         }
       });
@@ -229,7 +229,7 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
         if (conv.members.length > 2) {
           isGroupConv = true;
         }
-        
+
         conv.members.forEach(members => {
           if (members == usr1._id) {
             usr1Found = true;
@@ -268,7 +268,7 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
     const username = user.username
     const password = user.password
     const credentials = { username, password };
-    return this.http.post<any>('http://localhost:3000/api/login', credentials);
+    return this.http.post<any>('http://jouquan.fr:3000/api/login', credentials);
   }
 
   /* GET heroes whose name contains search term */
@@ -335,12 +335,12 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
   /** PUT: update the hero on the server */
   updateUser(usr: User) {
     const url = `${this.userUrl}/${usr._id}`;
-  
+
     console.log(usr);
-  
+
     this.http.put<User>(url, usr).subscribe(response => {
       console.log(response);
-  
+
       // Mise à jour des contacts après avoir reçu la réponse de la requête PUT
       this.loggedInUser.contacts.forEach((contact) => {
         this.getUser(contact).subscribe((user) => {
@@ -355,7 +355,7 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
   /** PUT: update the hero on the server */
   updateConversation(conv: Conversation){
     const url = `${this.convUrl}/${conv._id}`;
-    return this.http.put<Conversation>(url, conv).subscribe(response => { 
+    return this.http.put<Conversation>(url, conv).subscribe(response => {
       console.log(response);
       this.openConversation = response;
     });

@@ -11,7 +11,7 @@ app.options('*', cors())
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:8080', // Remplace avec l'URL correcte de ton application Angular
+  origin: 'http://pwa.jouquan.fr', // Remplace avec l'URL correcte de ton application Angular
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 })); // Accepte toutes les origines, ajuste cela en fonction de tes besoins en production*/
