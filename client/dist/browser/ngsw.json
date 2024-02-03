@@ -45,7 +45,7 @@
     {
       "name": "userRequests",
       "patterns": [
-        "http:\\/\\/localhost:3000\\/api\\/[^/]*"
+        "http:\\/\\/jouquan.fr:3000\\/api\\/[^/]*"
       ],
       "strategy": "freshness",
       "maxSize": 150,

@@ -31,7 +31,7 @@
     {
       "name": "userRequests",
       "urls": [
-        "http://localhost:3000/api/*"
+        "http://jouquan.fr:3000/api/*"
       ],
       "cacheConfig": {
         "maxSize": 150,

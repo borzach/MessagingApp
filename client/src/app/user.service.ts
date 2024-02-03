@@ -12,11 +12,11 @@ import { element } from 'protractor';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-  private userUrl = 'http://localhost:3000/api/users';//'api/users';  // URL to web api
-  private convUrl = 'http://localhost:3000/api/conversations';
-  private msgUrl = 'http://localhost:3000/api/messages';
-  private loginUrl = 'http://localhost:3000/api/login';
-  public notifUrl = 'http://localhost:3000/subscribe';
+  private userUrl = 'https://jouquan.fr:3000/api/users';//'api/users';  // URL to web api
+  private convUrl = 'https://jouquan.fr:3000/api/conversations';
+  private msgUrl = 'https://jouquan.fr:3000/api/messages';
+  private loginUrl = 'https://jouquan.fr:3000/api/login';
+  public notifUrl = 'https://jouquan.fr:3000/subscribe';
   readonly VAPID_KEY = 'BKMj0G8gM5d15pUytibmgaltVJ-LLy63CF9LnsR80Cq0XmmcCU5vsenDat4QiVjNXoz4w7fXUSReGz19sYxvYeY';
 
   httpOptions = {
