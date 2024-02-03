@@ -1,7 +1,17 @@
 .body {
-    width: 40%;
+    width: 100%;
     height:max-content;
-    background-color: darkgray;
+}
+
+.mb-names {
+    background-color: #fff;
+  color: #3f525c;
+  padding: 8px;
+  border: none;
+  border-radius: 30px;
+  width: fit-content;
+  margin: auto;
+  text-align: center;
 }
 
 .new-msg {
@@ -20,6 +30,7 @@ input {
     padding: 0.5rem 1rem;
     margin-right: 1rem;
     border-radius: 1.125rem;
+    border-color: #313131;
     flex-grow: 2;
     box-shadow: 
         0 0 1rem rgba(black, 0.1),
@@ -30,12 +41,31 @@ input {
     letter-spacing: 0.025em;
 }
 
+.mydiv {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.header {
+    height: 50px;
+    display: flex;
+    align-content: center;
+    background-image: linear-gradient(to right,#2b5876,#4e4376 51%,#2b5876);
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+   height: 90%;
+}
 .my-msg {
     font: 1.2rem "Fira Sans", sans-serif;
     background-image: linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%);
     margin: 10px;
-    padding: 15px 45px;
-    width: 40%;
+    padding: 15px 15px;
+    width: fit-content;
+    max-width: 40%;
     text-align:start;
     transition: 0.5s;
     background-size: 200% auto;
@@ -48,10 +78,11 @@ input {
 .member-msg {
              
     font: 1.2rem "Fira Sans", sans-serif;
-    background-image: linear-gradient(to right, rgb(87, 87, 87) 0%, #4e4376  51%, #2b5876  100%);
+    background-image: linear-gradient(to right, rgb(87, 87, 87) 0%, #313131  51%, #363636  100%);
     margin: 10px;
-    padding: 15px 45px;
-    width: 40%;
+    padding: 15px 15px;
+    width: fit-content;
+    max-width: 40%;
     text-align:start;
     transition: 0.5s;
     background-size: 200% auto;

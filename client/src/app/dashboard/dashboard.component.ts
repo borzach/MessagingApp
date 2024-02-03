@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Conversation, Message, User } from '../user';
 import { UserService } from '../user.service';
 import { SwPush, SwUpdate } from '@angular/service-worker';
@@ -26,11 +26,16 @@ export class DashboardComponent implements OnInit {
   contacts: User[] = [];
   contactsToChatWith: User[] = [];
   openConversation = false;
+  isSmallScreen: boolean = false;
+  openContactSS: boolean = false;
 
   constructor(private userService: UserService, private swPush: SwPush, private checkForUpdateService: CheckForUpdateService,private swUpdate: SwUpdate) {
     
   }
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isSmallScreen = window.innerWidth <= 768; // Ajustez la valeur selon vos besoins
+  }
   ngOnInit(): void {
     if (this.swUpdate.isEnabled) {
       this.checkForUpdateService.versionReady$.subscribe(() => {
@@ -56,13 +61,14 @@ export class DashboardComponent implements OnInit {
   }
 
   subcribeToNotif(): void {
-    
+    console.log("click");
     if (this.swPush.isEnabled) {
       this.swPush.requestSubscription({
         serverPublicKey: this.userService.VAPID_KEY
       })
       .then(sub => {
         console.log("sub: ", sub);
+        this.userService.postSubscription(sub);
         this.loggedInUser.endpointNotif = sub.toJSON();
         this.userService.updateUser(this.loggedInUser);
       })
