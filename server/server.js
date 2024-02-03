@@ -76,8 +76,8 @@ app.post('/subscribe', (req, res) => {
   );
   let playload = JSON.stringify({
     "notification": {
-      "title": "New Message",
-      "body": ""
+      "title": "Test Notification",
+      "body": "Notifications are working on your device"
     }
   });
   Promise.resolve(webPush.sendNotification(sub, playload))

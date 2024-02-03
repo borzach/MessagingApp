@@ -43,10 +43,10 @@ export class UserService {
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  postSubscription(sub: PushSubscriptionJSON) {
+  postSubscription(sub: PushSubscription) {
     return this.http.post(this.notifUrl, sub);
   }
-  /** GET heroes from the server */
+  /** GET users from the server */
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userUrl)
     .pipe(
@@ -55,7 +55,7 @@ export class UserService {
     );
   }
 
-  /** GET hero by id. Return `undefined` when id not found */
+  /** GET user by id. Return `undefined` when id not found */
   getUserNo404<Data>(id: number): Observable<User> {
     const url = `${this.userUrl}/?_id=${id}`;
     return this.http.get<User[]>(url)
@@ -69,7 +69,7 @@ export class UserService {
       );
   }
 
-  /** GET hero by id. Will 404 if id not found */
+  /** GET user by id. Will 404 if id not found */
   getUser(id: string): Observable<User> {
     const url = `${this.userUrl}/${id}`;
     return this.http.get<User>(url).pipe(
@@ -78,7 +78,7 @@ export class UserService {
     );
   }
 
-  /** GET hero by id. Will 404 if id not found */
+  /** GET user by id. Will 404 if id not found */
   getConv(id: string): Observable<Conversation> {
     const url = `${this.convUrl}/${id}`;
     return this.http.get<Conversation>(url).pipe(
@@ -87,7 +87,7 @@ export class UserService {
     );
   }
 
-  /** GET hero by id. Will 404 if id not found */
+  /** GET user by id. Will 404 if id not found */
   getMsg(id: string): Observable<Message> {
     const url = `${this.msgUrl}/${id}`;
     return this.http.get<Message>(url).pipe(
@@ -222,7 +222,7 @@ getConvFromMembers(usr1: User, usr2: User): Observable<Conversation> {
     );
   }
 
-  /* GET heroes whose name contains search term */
+  /* GET useres whose name contains search term */
   searchUsers(term: string): Observable<User[]> {
     if (!term.trim()) {
       // if not search term, return empty User array.

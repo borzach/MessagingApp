@@ -61,7 +61,6 @@ export class DashboardComponent implements OnInit {
   }
 
   subcribeToNotif(): void {
-    console.log("click");
     if (this.swPush.isEnabled) {
       this.swPush.requestSubscription({
         serverPublicKey: this.userService.VAPID_KEY

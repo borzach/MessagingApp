@@ -104,6 +104,15 @@ a {
     width: 18%;
     box-sizing: content-box;
   }
+  .left-side {
+    background-color: darkgray;
+    width: 100%;
+  }
+  
+  .right-side {
+   
+    width: 100%;
+  }
 }
 
 a:hover {

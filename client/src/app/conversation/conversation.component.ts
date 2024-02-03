@@ -162,7 +162,7 @@ export class ConversationComponent implements OnInit, OnChanges {
         }
         if (this.members.length == 2 && this.members[1].endpointNotif) {
             console.log("postSub ", this.members[1].endpointNotif);
-            this.userService.postSubscription(this.members[1].endpointNotif);
+            //this.userService.postSubscription(this.members[1].endpointNotif);
         }
       });
     });
