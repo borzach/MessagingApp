@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
-    this.isSmallScreen = window.innerWidth <= 768; // Ajustez la valeur selon vos besoins
+    this.isSmallScreen = window.innerWidth <= 600; // Ajustez la valeur selon vos besoins
   }
   ngOnInit(): void {
     if (this.swUpdate.isEnabled) {
