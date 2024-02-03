@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit{
     username = username.trim();
 
     // Hash the password before sending it to the server
-    bcrypt.genSalt(10, (err : Error, salt : string) => {
-      bcrypt.hash(password, salt, (error : Error, hashedPassword : string) => {
+    bcrypt.genSalt(10, (err : Error | null, salt : string) => {
+      bcrypt.hash(password, salt, (error : Error | null, hashedPassword : string) => {
         if (error) {
           console.error('Error hashing password:', error);
           return;
