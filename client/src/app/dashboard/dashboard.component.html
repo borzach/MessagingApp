@@ -1,20 +1,37 @@
 <div *ngIf="!isLoggedIn()">
-  <app-login></app-login>
-</div>
+    <app-login></app-login>
+  </div>
 <div *ngIf="isLoggedIn()">
-  <div class="headerDashboard">
-    <app-user-search (addContact)="addContactToLoggedIn($event)"></app-user-search>
-    {{loggedInUser.username}}
-  </div>
-  <div>
-    My contacts
-    <div *ngFor="let contact of contacts">
-      <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
+    <div class="main">
+        <div class="left-side">
+            <div class="headerDashboard">
+                <div class="header-padding">
+                    Connected as 
+                    <div class="title-profil">{{loggedInUser.username}}</div>
+                    <app-user-search class="user-search" (addContact)="addContactToLoggedIn($event)">
+                        
+                    </app-user-search>
+                    <label for="icon-notif">Allow Notifications</label>
+                    <img id="icon-notif" src="../../assets/icons/icone-de-cloche-grise.png" (click)="subcribeToNotif()">
+                </div>
+            </div>
+            <div *ngIf="!isSmallScreen">
+                <div class="title-profil">Your Friends</div>
+                <div *ngFor="let contact of contacts">
+                  <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
+                </div> 
+            </div>
+            <div *ngIf="isSmallScreen">
+                <button class="add-button" (click) = "openContactSS = !openContactSS">Your contacts</button>
+                <div *ngIf="openContactSS">
+                    <div *ngFor="let contact of contacts">
+                        <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
+                      </div> 
+                </div>
+            </div>
+        </div>
+        <div class="right-side" *ngIf="this.openConversation">
+            <app-conversation [members]="this.contactsToChatWith"></app-conversation>
+        </div>
     </div>
-    <div *ngIf="this.openConversation">
-        <app-conversation [members]="this.contactsToChatWith"></app-conversation>
-    </div>
-  </div>
-  <app-messages></app-messages>
 </div>
-

@@ -1,23 +1,27 @@
 <main class="body">
     <div class="header">
-        <div *ngFor="let m of this.members"> {{m.username}}</div>
+        <div>
+            Chating with : 
+        </div>
+        <div *ngFor="let m of this.members">
+            <div class="mb-names" *ngIf="m._id != this.logedInUser._id">
+                {{m.username}}
+            </div>
+        </div>
     </div>
     <div class="content">
         <div *ngFor="let msg of this.messages">
-            <div *ngIf="msg.senderID == this.logedInUser._id">
+            <div class="mydiv" *ngIf="msg.senderID == this.logedInUser._id">
                 <div class="my-msg">{{msg.content}}</div>
             </div>
-            <div *ngIf="msg.senderID != this.logedInUser._id">
+            <div class="memberdiv" *ngIf="msg.senderID != this.logedInUser._id">
                 <div class="member-msg">{{msg.content}}</div>
             </div>
         </div>
         <div class="new-msg">
-            <label for="name">New message: </label>
-            <input id="name" [(ngModel)]="this.typingString" (keypress)="handleKeyPressed($event)" placeholder="name">
+            <input placeholder="Enter your message" [(ngModel)]="this.typingString" (keypress)="handleKeyPressed($event)">
             <!-- <input id="name" [(ngModel)]="this.currentWorkingMsg.content" placeholder="name" (keypress)="handleKeyPressed($event)"><i class="fas fa-microphone"></i>-->
         </div>
-        <div>Typing string :
-            {{this.typingString}}
-        </div>
+        
     </div>
 </main>

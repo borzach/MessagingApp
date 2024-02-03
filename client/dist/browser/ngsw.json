@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1706717174809,
+  "timestamp": 1706918394541,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-AIPSRCXG.js",
+        "/main-VRV3PFTG.js",
         "/manifest.webmanifest",
         "/polyfills-RX4V3J3S.js",
         "/styles-LOGPSQOO.css"
@@ -35,12 +35,28 @@
         "/assets/icons/icon-384x384.png",
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
-        "/assets/icons/icon-96x96.png"
+        "/assets/icons/icon-96x96.png",
+        "/assets/icons/icone-de-cloche-grise.png"
       ],
       "patterns": []
     }
   ],
-  "dataGroups": [],
+  "dataGroups": [
+    {
+      "name": "userRequests",
+      "patterns": [
+        "http:\\/\\/localhost:3000\\/api\\/[^/]*"
+      ],
+      "strategy": "freshness",
+      "maxSize": 150,
+      "maxAge": 21600000,
+      "timeoutMs": 2000,
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "version": 1
+    }
+  ],
   "hashTable": {
     "/assets/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
     "/assets/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
@@ -50,10 +66,11 @@
     "/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/assets/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/assets/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/assets/icons/icone-de-cloche-grise.png": "007636b37c6208f9a3638ab4f7bbdadf2ea6cc58",
     "/favicon.ico": "04c278dba3e54393c4c980f7fd4dcd43796ef813",
-    "/index.html": "fd9801f7cee2c71bb2ac9f750ca56010c09a3354",
-    "/main-AIPSRCXG.js": "5b7eef6ca8f3016fd8e490ab081e98c76bbbc30f",
-    "/manifest.webmanifest": "12a115f2c5aa9c32e80a3f7ee66942af08636507",
+    "/index.html": "e3c117f103fdaaeb17efc894d5325990b19a45b6",
+    "/main-VRV3PFTG.js": "ffe67dc7d5773a8bec8215ec6258525af1eb3c01",
+    "/manifest.webmanifest": "828d4ce69d21066ab4fc62323d065538ff0ff097",
     "/polyfills-RX4V3J3S.js": "6b4c4ea33aa92bce0b91df442a680ed73e4303db",
     "/styles-LOGPSQOO.css": "ea2783ae8eddf11fcae1a2ddd4957fb151edf696"
   },

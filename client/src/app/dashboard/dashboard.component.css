@@ -1,7 +1,57 @@
 /* DashboardComponent's private CSS styles */
 
+.main {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
 h2 {
   text-align: center;
+}
+
+.left-side {
+  background-color: darkgray;
+  width: 30%;
+}
+
+.right-side {
+ 
+  width: 70%;
+}
+
+#icon-notif {
+  width: 20.px;
+  height: 20.px;
+}
+
+.title-profil {
+  background-color: #fff;
+  color: #3f525c;
+  padding: 5%;
+  border: none;
+  border-radius: 30px;
+  width: fit-content;
+  margin: auto;
+  text-align: center;
+}
+
+.header-padding {
+  padding: 5%;
+}
+
+.headerDashboard {
+  align-items: center;
+  background-image:  linear-gradient(to right, #2b5876 0%, #4e4376  51%, #2b5876  100%);
+  text-align: center;
+  border-radius: 0px 0px 10px 10px; /* Coins arrondis */
+  color: #fff; /* Texte blanc */
+}
+
+.user-search {
+  width: 70%;
+
 }
 
 .heroes-menu {
@@ -42,7 +92,14 @@ a {
   align-self: auto;
 }
 
-@media (min-width: 600px) {
+@media (max-width: 600px) {
+ 
+  .main {
+    font-family: 'Quicksand', sans-serif;
+    display:block;
+    width: 100%;
+    height: 100%;
+  }
   a {
     width: 18%;
     box-sizing: content-box;

@@ -1,7 +1,5 @@
 <div id="search-component">
-  <label for="search-box">Search</label>
-  <input #searchBox id="search-box" (click)="this.displayUser = false" (input)="search(searchBox.value)" />
-
+  <input #searchBox placeholder="Search by username" id="search-box" (click)="this.displayUser = false" (input)="search(searchBox.value)" />
   <ul class="search-result" *ngIf="!this.displayUser">
     <li *ngFor="let user of users$ | async" >
       <button type="button" (click)="displayProfil(user)">{{user.username}}</button>

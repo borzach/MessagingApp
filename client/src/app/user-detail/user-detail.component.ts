@@ -18,7 +18,8 @@ export class UserDetailComponent implements OnInit {
     email: '',
     password: '',
     contacts:[],
-    conversations: []
+    conversations: [],
+    endpointNotif: null
   };
 
   constructor(

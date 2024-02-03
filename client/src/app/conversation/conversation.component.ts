@@ -1,8 +1,11 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Conversation, User, Message } from '../user';
 import { UserService } from '../user.service';
 import { Form, FormsModule } from '@angular/forms';
+import { Observable, Subject, forkJoin, interval, startWith, switchMap } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
+import { CheckForUpdateService } from '../check-for-updates.service';
 
 
 @Component({
@@ -21,10 +24,13 @@ export class ConversationComponent implements OnInit, OnChanges {
     ngModel: any;
     typingString: string = "";
     membersStrArray: string[] = [];
+    private membersChangeSubject = new Subject<boolean>();
     
-  constructor(private userService: UserService) { }
-  ngOnChanges(changes: SimpleChanges): void {
+  constructor(private userService: UserService) { 
 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+      
       this.onMembersChange();
   }
 
@@ -49,11 +55,17 @@ export class ConversationComponent implements OnInit, OnChanges {
     })
     this.logedInUser = this.userService.loggedInUser;
     if (this.members.length == 2) {
-      console.log(this.members)
       this.userService.onConvExist(this.members).subscribe(exist => {
         if (exist) {
           this.userService.getConvFromMembers(this.members[0], this.members[1]).subscribe(conv => {
             this.messages = [];
+            if (this.conversation) {
+              if (this.conversation != conv) {
+                this.membersChangeSubject.next(true);
+              } else {
+                this.membersChangeSubject.next(false);
+              }
+            }
             this.conversation = conv;
             this.conversation.messages.forEach(msgID => {
               this.userService.getMsg(msgID).subscribe((msg)=> {
@@ -84,6 +96,18 @@ export class ConversationComponent implements OnInit, OnChanges {
         }
       });
     }
+  }
+
+  localUpdateMessage() {
+    this.conversation.messages.forEach(msgID => {
+      this.userService.getMsg(msgID).subscribe((msg)=> {
+        this.messages.push(msg);
+      });
+    });
+  }
+
+  getMembersChangeObservable() {
+    return this.membersChangeSubject.asObservable();
   }
 
   ngOnInit(): void {
@@ -131,10 +155,14 @@ export class ConversationComponent implements OnInit, OnChanges {
         conv.messages = conv.messages.filter(element => element !== "");
         if (conv.messages.find(msgId => msgId.includes(msg._id)) != msg._id) {
           this.userService.updateMessage(this.currentWorkingMsg).subscribe(msg => {
-          this.conversation.messages.push(msg._id);
-          this.messages = this.userService.getAllMsgFromConv(this.conversation);
-          this.typingString = "";
-        });
+            this.conversation.messages.push(msg._id);
+            this.messages = this.userService.getAllMsgFromConv(this.conversation);
+            this.typingString = "";
+          });  
+        }
+        if (this.members.length == 2 && this.members[1].endpointNotif) {
+            console.log("postSub ", this.members[1].endpointNotif);
+            this.userService.postSubscription(this.members[1].endpointNotif);
         }
       });
     });

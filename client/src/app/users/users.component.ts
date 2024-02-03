@@ -30,7 +30,8 @@ export class UsersComponent implements OnInit {
       password: 'piol',
       email: 'rdctvyb',
       contacts:[],
-      conversations:[]
+      conversations:[],
+      endpointNotif: null
     };
     if (!name) { return; }
     this.userService.addUser(newUser)

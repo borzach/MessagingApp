@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+let webPush = require('web-push');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -37,7 +37,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   email: { type: String }, // Inclus le champ email dans le schéma
   contacts: { type: [String] }, // Inclus le champ email dans le schéma
-  conversations: { type: [String] } // Inclus le champ email dans le schéma
+  conversations: { type: [String] } ,// Inclus le champ email dans le schéma
+  endpointNotif: { type: JSON } 
 }, { versionKey: false });
 // Modèle MongoDB pour la collection "users"
 const User = mongoose.model('users', userSchema);
@@ -64,6 +65,31 @@ const authSchema = new mongoose.Schema({
   userID: { type: String, required: true }
 }, { versionKey: false });
 const Auth = mongoose.model('auth', authSchema);
+
+
+app.post('/subscribe', (req, res) => {
+  let sub = req.body;
+  res.set('Content-Type', 'application-json');
+  webPush.setVapidDetails(
+    'mailto:zacharie61@gmail.com',
+    "BKMj0G8gM5d15pUytibmgaltVJ-LLy63CF9LnsR80Cq0XmmcCU5vsenDat4QiVjNXoz4w7fXUSReGz19sYxvYeY",
+    "p3S8O57Yp0iQqsVxFE24QJn75_DhfEtViuYAI3knDS8"
+  );
+  let playload = JSON.stringify({
+    "notification": {
+      "title": "New Message",
+      "body": ""
+    }
+  });
+  Promise.resolve(webPush.sendNotification(sub, playload))
+    .then(() => res.status(200).json({
+        message: "Notif sent"
+    }))
+    .catch(err => {
+      console.error(err);
+      res.sendStatus(500);
+    })
+});
 
 // Endpoint pour récupérer tous les utilisateurs
 app.get('/api/users', async (req, res) => {
