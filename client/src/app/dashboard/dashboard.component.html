@@ -1,9 +1,27 @@
-<div *ngIf="!isLoggedIn()">
+<div *ngIf="!isLoggedIn()" class="main-login">
     <app-login></app-login>
   </div>
 <div *ngIf="isLoggedIn()">
     <div class="main">
-        <div class="left-side">
+        
+        <div *ngIf="(this.currentWidth > 700)" class="left-side">
+            <div class="headerDashboard">
+                <div class="header-padding">
+                    <app-user-search class="user-search" (addContact)="addContactToLoggedIn($event)"></app-user-search>
+                </div>
+            </div>
+            <div class="title-profil">Conversations</div>
+            <div *ngFor="let prev of previewConvs">
+                    <!-- Utilisez les données ici -->
+                    <button type="button" class="add-button" (click)="openConv(prev._idConv)" >{{ prev._title }} -> {{prev._lastMessage}}</button>
+                
+            </div> 
+            <div class="header-padding">
+                <label for="icon-notif">Allow Notifications</label>
+                <img id="icon-notif" src="../../assets/icons/icone-de-cloche-grise.png" (click)="subcribeToNotif()">
+            </div>
+        </div>
+        <div *ngIf="(this.currentWidth <= 700) && !this.openConversation" class="left-side-res">
             <div class="headerDashboard">
                 <div class="header-padding">
                     Connected as 
@@ -15,22 +33,34 @@
                     <img id="icon-notif" src="../../assets/icons/icone-de-cloche-grise.png" (click)="subcribeToNotif()">
                 </div>
             </div>
-            <div *ngIf="!isSmallScreen">
-                <div class="title-profil">Your Friends</div>
-                <div *ngFor="let contact of contacts">
-                  <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
-                </div> 
-            </div>
-            <div *ngIf="isSmallScreen">
-                <button class="add-button" (click) = "openContactSS = !openContactSS">Your contacts</button>
-                <div *ngIf="openContactSS">
-                    <div *ngFor="let contact of contacts">
-                        <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
-                      </div> 
+            <div class="title-profil">Your Friends</div>
+            <div *ngFor="let contact of contacts">
+                <button type="button" class="add-button" (click)="chatWithUser(contact)" >Chat with {{contact.username}}</button>
+            </div> 
+        </div>
+        
+        <div class="right-side" *ngIf="this.openConversation">
+            <div *ngIf="this.currentWidth < 700" class="header">
+                <button type="button" class="add-button" (click)="this.openConversation = false" >Menu</button>
+                <div>
+                    Chating with : 
+                </div>
+                <div *ngFor="let m of this.contactsToChatWith">
+                    <div class="mb-names" *ngIf="m._id != this.loggedInUser._id">
+                        {{m.username}}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="right-side" *ngIf="this.openConversation">
+            <div *ngIf="this.currentWidth >= 700" class="header">
+                <div>
+                    Chating with : 
+                </div>
+                <div *ngFor="let m of this.contactsToChatWith">
+                    <div class="mb-names" *ngIf="m._id != this.loggedInUser._id">
+                        {{m.username}}
+                    </div>
+                </div>
+            </div>
             <app-conversation [members]="this.contactsToChatWith"></app-conversation>
         </div>
     </div>

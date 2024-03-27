@@ -1,42 +1,45 @@
-<div class="body">
-    <div>
-      <button type="button" class="add-button" (click)="isNewUser = false">
-        Login
-      </button>
-      <button type="button" class="add-button" (click)="isNewUser = true">
-        Create Account
-      </button>
-    </div>
+<div class="main-login">
+  <div class="body">
+      <div>
+        <button type="button" class="button-selected" (click)="isNewUser = false" *ngIf="isNewUser == false">
+          Login
+        </button>
+        <button type="button" class="button-unselected" (click)="isNewUser = false" *ngIf="isNewUser == true">
+          Login
+        </button>
+        <button type="button" class="button-unselected" (click)="isNewUser = true" *ngIf="isNewUser == false">
+          Create Account
+        </button>
+        <button type="button" class="button-selected" (click)="isNewUser = true" *ngIf="isNewUser == true">
+          Create Account
+        </button>
+      </div>
 
-    <div *ngIf="isNewUser">
-      <div>
-        <label for="email">Email: </label>
-        <input id="email" [(ngModel)]="loggedInUser.email">
+      <div *ngIf="isNewUser" class ="create-account form">
+        <div>
+          <input id="email" placeholder="Email" [(ngModel)]="loggedInUser.email">
+        </div>
+        <div>
+          <input id="pseudo" placeholder="Pseudo" [(ngModel)]="loggedInUser.username">
+        </div>
+        <div>
+          <input id="password" placeholder="Password" [(ngModel)]="loggedInUser.password">
+        </div>
+        <button type="button" class="add-button" (click)="createAccount(loggedInUser.username, loggedInUser.password, loggedInUser.email);">
+          Create Account
+        </button>
       </div>
-      <div>
-        <label for="pseudo">Pseudo: </label>
-        <input id="pseudo" [(ngModel)]="loggedInUser.username">
-      </div>
-      <div>
-        <label for="password">Password: </label>
-        <input id="password" [(ngModel)]="loggedInUser.password">
-      </div>
-      <button type="button" class="add-button" (click)="createAccount(loggedInUser.username, loggedInUser.password, loggedInUser.email);">
-        Create Account
-      </button>
-    </div>
 
-    <div *ngIf="!isNewUser">
-      <div>
-        <label for="username">Username: </label>
-        <input id="username" [(ngModel)]="loggedInUser.username">
+      <div *ngIf="!isNewUser"  class ="login-account form">
+        <div>
+          <input id="username" placeholder="Username" [(ngModel)]="loggedInUser.username">
+        </div>
+        <div>
+          <input id="password" placeholder="Password" [(ngModel)]="loggedInUser.password">
+        </div>
+        <button type="button" class="add-button" (click)="accesAccount(loggedInUser.username, loggedInUser.password);">
+          Log In
+        </button>
       </div>
-      <div>
-        <label for="password">Password: </label>
-        <input id="password" [(ngModel)]="loggedInUser.password">
-      </div>
-      <button type="button" class="add-button" (click)="accesAccount(loggedInUser.username, loggedInUser.password);">
-        Log In
-      </button>
-    </div>
+  </div>
 </div>

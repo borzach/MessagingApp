@@ -1,6 +1,10 @@
 .body {
+    
+    display: flex;
+
+    flex-direction: column;
     width: 100%;
-    height:max-content;
+    height: 100%;
 }
 
 .mb-names {
@@ -14,11 +18,15 @@
   text-align: center;
 }
 
+.body_msgs {
+    height: 90%;
+}
+
 .new-msg {
+    height: 10%;
     box-sizing: border-box;
     flex-basis: 4rem;
     flex-shrink: 0;
-    display: flex;
     align-items: center;
     padding: 0 0.5rem 0 1.5rem;
 }
@@ -46,18 +54,12 @@ input {
     flex-direction: row-reverse;
 }
 
-.header {
-    height: 50px;
-    display: flex;
-    align-content: center;
-    background-image: linear-gradient(to right,#2b5876,#4e4376 51%,#2b5876);
-    color: #fff;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .content {
-   height: 90%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 .my-msg {
     font: 1.2rem "Fira Sans", sans-serif;

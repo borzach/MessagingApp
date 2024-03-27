@@ -5,7 +5,7 @@ npm install
 
 lance le client avec :
 ng serve
-
+./client ng build
 
 
 SERVER
@@ -21,3 +21,5 @@ Faut telecharger MongoDb Compass
 	   une database "messagingApp"
 	   des collections avec le nom des fichiers json dans ce dossier
 et dans la collection ont peut importer ces fichiers json
+
+api key : J3f5UJCDAjgcAW1idR4mi4vsb8vFy2DYpAWi1rqGXdQ2iFRdgdu5JlQywffRWQpW

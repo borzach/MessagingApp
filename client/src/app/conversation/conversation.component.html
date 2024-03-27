@@ -1,21 +1,14 @@
 <main class="body">
-    <div class="header">
-        <div>
-            Chating with : 
-        </div>
-        <div *ngFor="let m of this.members">
-            <div class="mb-names" *ngIf="m._id != this.logedInUser._id">
-                {{m.username}}
-            </div>
-        </div>
-    </div>
+    
     <div class="content">
-        <div *ngFor="let msg of this.messages">
-            <div class="mydiv" *ngIf="msg.senderID == this.logedInUser._id">
-                <div class="my-msg">{{msg.content}}</div>
-            </div>
-            <div class="memberdiv" *ngIf="msg.senderID != this.logedInUser._id">
-                <div class="member-msg">{{msg.content}}</div>
+        <div class="body_msgs"> 
+            <div *ngFor="let msg of this.messages">
+                <div class="mydiv" *ngIf="msg.senderID == this.logedInUser._id">
+                    <div class="my-msg">{{msg.content}}</div>
+                </div>
+                <div class="memberdiv" *ngIf="msg.senderID != this.logedInUser._id">
+                    <div class="member-msg">{{msg.content}}</div>
+                </div>
             </div>
         </div>
         <div class="new-msg">

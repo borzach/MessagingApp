@@ -24,9 +24,13 @@ app.get('/', (req, res) => {
 });
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/messagingApp', {
+mongoose.connect('mongodb+srv://zacharie61:leaucestpourlesbateaux@clustermessagingapp.uto3igw.mongodb.net/messagingApp', {
   useUnifiedTopology: true,
   useNewUrlParser: true,
+}).then(() => {
+  console.log('Connected to the database!');
+}).catch(err => {
+  console.error('Error connecting to the database:', err);
 });
 
 // Définition du schéma pour la collection "users"
